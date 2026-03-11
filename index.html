@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Emotion Detection System</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#667eea,#764ba2,#ff758c);
+height:100vh;
+}
+
+/* CHATBOT BUTTON */
+
+.chatbot-btn{
+position:fixed;
+top:20px;
+right:20px;
+background:#ff4b5c;
+color:white;
+border:none;
+padding:15px;
+border-radius:50%;
+font-size:22px;
+cursor:pointer;
+}
+
+/* CHATBOX */
+
+.chatbox{
+position:fixed;
+top:80px;
+right:20px;
+width:300px;
+background:white;
+border-radius:10px;
+box-shadow:0px 10px 25px rgba(0,0,0,0.3);
+display:none;
+flex-direction:column;
+}
+
+/* HEADER */
+
+.chat-header{
+background:#764ba2;
+color:white;
+padding:10px;
+border-radius:10px 10px 0 0;
+display:flex;
+align-items:center;
+}
+
+.chat-header img{
+width:30px;
+margin-right:10px;
+}
+
+/* CHAT MESSAGES */
+
+.chat-messages{
+height:250px;
+overflow-y:auto;
+padding:10px;
+font-size:14px;
+}
+
+/* INPUT AREA */
+
+.chat-input{
+display:flex;
+border-top:1px solid #ddd;
+}
+
+.chat-input input{
+flex:1;
+padding:10px;
+border:none;
+outline:none;
+}
+
+.chat-input button{
+background:#ff4b5c;
+border:none;
+color:white;
+padding:10px;
+cursor:pointer;
+}
+
+/* MAIN PAGE */
+
+.container{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
+color:white;
+text-align:center;
+}
+
+.start-btn{
+background:#ffcc00;
+color:black;
+padding:15px 40px;
+font-size:20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- CHATBOT BUTTON -->
+
+<button class="chatbot-btn" onclick="toggleChat()">🤖</button>
+
+<!-- CHATBOT -->
+
+<div class="chatbox" id="chatbox">
+
+<div class="chat-header">
+<img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png">
+AI Emotion Assistant
+</div>
+
+<div class="chat-messages" id="messages">
+<p>🤖 Hello! Tell me how you feel.</p>
+</div>
+
+<div class="chat-input">
+<input type="text" id="userInput" placeholder="Type or speak your emotion...">
+
+<button onclick="startVoice()">🎤</button>
+
+<button onclick="sendMessage()">Send</button>
+</div>
+
+</div>
+
+<!-- MAIN PAGE -->
+
+<div class="container">
+
+<h1>AI Emotion Detection System</h1>
+
+<p>Detect emotions and get personalized suggestions</p>
+
+<a href="/detect">
+<button class="start-btn">Start Detection</button>
+</a>
+
+</div>
+
+
+<script>
+
+function toggleChat(){
+var chat=document.getElementById("chatbox");
+
+if(chat.style.display==="none" || chat.style.display===""){
+chat.style.display="flex";
+}
+else{
+chat.style.display="none";
+}
+}
+
+function sendMessage(){
+
+var input=document.getElementById("userInput").value.toLowerCase();
+var messages=document.getElementById("messages");
+
+messages.innerHTML+="<p>🧑 "+input+"</p>";
+
+var reply="";
+
+if(input.includes("happy")){
+reply="😊 That's great! Listen to happy music 🎵 or play games 🎮";
+}
+else if(input.includes("sad")){
+reply="😔 Try listening to calm music 🎧 or reading a motivational book 📚";
+}
+else if(input.includes("angry")){
+reply="😡 Take deep breaths. Try relaxing music 🎶 and blue color therapy 💙";
+}
+else if(input.includes("fear")){
+reply="😨 Stay calm. Try positive music and puzzle games 🧩";
+}
+else if(input.includes("surprise")){
+reply="😲 That's exciting! Try fun games and energetic music 🎵";
+}
+else{
+reply="🤖 Tell me your emotion like happy, sad, angry, fear etc.";
+}
+
+messages.innerHTML+="<p>"+reply+"</p>";
+speak(reply);
+
+document.getElementById("userInput").value="";
+
+messages.scrollTop=messages.scrollHeight;
+
+}
+
+</script>
+<script>
+
+function startVoice(){
+
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+recognition.lang = "en-US";
+
+recognition.start();
+
+recognition.onstart = function(){
+console.log("Voice recognition started");
+}
+
+recognition.onresult = function(event){
+
+var speech = event.results[0][0].transcript;
+
+document.getElementById("userInput").value = speech;
+
+sendMessage();
+
+}
+
+}
+function speak(text){
+
+const speech = new SpeechSynthesisUtterance();
+
+speech.text = text;
+
+speech.lang = "en-US";
+
+window.speechSynthesis.speak(speech);
+
+}
+
+</script>
+</body>
+</html>
