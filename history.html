@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Emotion History</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:linear-gradient(120deg,#667eea,#764ba2);
+color:white;
+text-align:center;
+}
+
+table{
+margin:auto;
+margin-top:40px;
+border-collapse:collapse;
+background:white;
+color:black;
+}
+
+th,td{
+padding:12px 25px;
+border:1px solid #ddd;
+}
+
+th{
+background:#764ba2;
+color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Emotion Detection History</h1>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Emotion</th>
+<th>Date</th>
+</tr>
+
+{% for row in data %}
+
+<tr>
+<td>{{row[0]}}</td>
+<td>{{row[1]}}</td>
+<td>{{row[2]}}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>
